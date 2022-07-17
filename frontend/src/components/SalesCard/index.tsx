@@ -64,18 +64,18 @@ export default function(){
                     venda.sellerName === "Anakin"
                     return(
                       <tr>
-                    <td className="show992">{venda.id}</td>
-                    <td className="show576">{new Date(venda.date).toLocaleDateString()}</td>
-                    <td>{venda.sellerName}</td>
-                    <td className="show992">{venda.visited}</td>
-                    <td className="show992">{venda.deals}</td>
-                    <td>R$ {venda.amount.toFixed(2)}</td>
-                    <td>
-                      <div className="dsmeta-red-btn-container">
-                        <NotificationButton/>
-                      </div>
-                    </td>
-                  </tr> 
+                        <td className="show992">{venda.id}</td>
+                        <td className="show576">{new Date(venda.date).toLocaleDateString()}</td>
+                        <td>{venda.sellerName}</td>
+                        <td className="show992">{venda.visited}</td>
+                        <td className="show992">{venda.deals}</td>
+                        <td>R$ {venda.amount.toFixed(2)}</td>
+                        <td>
+                          <div className="dsmeta-red-btn-container">
+                            <NotificationButton saleId={venda.id}/>
+                          </div>
+                        </td>
+                      </tr> 
                     );
                   })}                  
                 </tbody>
