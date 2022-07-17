@@ -1,4 +1,5 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import axios from 'axios';
 import NotificationButton from '../NotificationButton';
 import './styles.css';
 import DatePicker from "react-datepicker";
@@ -8,6 +9,13 @@ export default function(){
 
   const [minDate, setMinDate] = useState(new Date());
   const [maxDate, setMaxDate] = useState(new Date());
+
+  useEffect(()=>{
+    axios.get("https://dsmeta-lyusk8.herokuapp.com/sales")
+    .then(response => {
+      console.log(response.data);
+    })
+  },[])
 
   return(
     <div className="dsmeta-card">
