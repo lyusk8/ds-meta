@@ -1,25 +1,28 @@
 import {useEffect, useState} from 'react';
+import {BASE_URL} from '../../utils/requests';
 import axios from 'axios';
 import NotificationButton from '../NotificationButton';
 import './styles.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Sale } from '../../models/sale';
 
 export default function(){
 
   const [minDate, setMinDate] = useState(new Date());
   const [maxDate, setMaxDate] = useState(new Date());
+  const [sales, setSales] = useState<Sale[]>([]);
 
   useEffect(()=>{
-    axios.get("https://dsmeta-lyusk8.herokuapp.com/sales")
+    axios.get(`${BASE_URL}/sales`)
     .then(response => {
-      console.log(response.data);
+      setSales(response.data.content)
     })
   },[])
 
   return(
     <div className="dsmeta-card">
-            <h2 className="dsmeta-sales-title">Vendas</h2>
+            <h2 className="dsmeta-sales-title">Vendas</h2>            
             <div>
               <div className="dsmeta-form-control-container">
                 <DatePicker
@@ -52,48 +55,26 @@ export default function(){
                     <th>Notificar</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td className="show992">#341</td>
-                    <td className="show576">08/07/2022</td>
-                    <td>Anakin</td>
-                    <td className="show992">15</td>
-                    <td className="show992">11</td>
-                    <td>R$ 55300.00</td>
+                <tbody>                  
+                {sales.map(venda =>{
+                    venda.sellerName === "Anakin"
+                    return(
+                      <tr>
+                    <td className="show992">{venda.id}</td>
+                    <td className="show576">{new Date(venda.date).toLocaleDateString()}</td>
+                    <td>{venda.sellerName}</td>
+                    <td className="show992">{venda.visited}</td>
+                    <td className="show992">{venda.deals}</td>
+                    <td>R$ {venda.amount.toFixed(2)}</td>
                     <td>
                       <div className="dsmeta-red-btn-container">
                         <NotificationButton/>
                       </div>
                     </td>
-                  </tr>
-                  <tr>
-                    <td className="show992">#341</td>
-                    <td className="show576">08/07/2022</td>
-                    <td>Anakin</td>
-                    <td className="show992">15</td>
-                    <td className="show992">11</td>
-                    <td>R$ 55300.00</td>
-                    <td>
-                      <div className="dsmeta-red-btn-container">
-                        <NotificationButton/>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="show992">#341</td>
-                    <td className="show576">08/07/2022</td>
-                    <td>Anakin</td>
-                    <td className="show992">15</td>
-                    <td className="show992">11</td>
-                    <td>R$ 55300.00</td>
-                    <td>
-                      <div className="dsmeta-red-btn-container">
-                        <NotificationButton/>
-                      </div>
-                    </td>
-                  </tr>
+                  </tr> 
+                    );
+                  })}                  
                 </tbody>
-
               </table>
             </div>
 
